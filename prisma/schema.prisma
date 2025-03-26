@@ -8,13 +8,38 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?  @unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
+  statuses      Status[]  @relation("UserStatus")
+}
+
+model Status {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation("UserStatus", fields: [userId], references: [id])
+  state       State    @default(AVAILABLE)
+  hours       Int      @default(8)
+  forecast    Forecast @default(FULL)
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+enum State {
+  BUSY
+  AVAILABLE
+  OUT_OF_OFFICE
+}
+
+enum Forecast {
+  FULL
+  DAY_TO_DAY
+  FREE
 }
 
 model Account {

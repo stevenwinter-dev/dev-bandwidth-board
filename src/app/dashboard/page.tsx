@@ -1,10 +1,10 @@
 import { getCurrentUser } from "@/lib/auth";
 import { redirect } from "next/navigation";
+import StatusForm from "@/components/StatusForm";
 
 export default async function Dashboard() {
   const user = await getCurrentUser();
 
-  // Optional: Redirect if not authenticated (middleware already handles this)
   if (!user) {
     redirect("/login");
   }
@@ -27,13 +27,19 @@ export default async function Dashboard() {
           </div>
         </div>
 
-        {/* Bandwidth Widget */}
+        {/* Status Update Section */}
         <section className="bg-stone-900 rounded-xl p-6 shadow-sm border border-stone-800">
-          <h1 className="text-white">Bandwidth</h1>
-          <p className="text-stone-400 mt-2">
-            Welcome back, <span className="text-blue-400">{user.name}</span>! 
-            Your email is <span className="text-blue-400">{user.email}</span>.
-          </p>
+          <h2 className="text-xl font-semibold text-white mb-4">Update Your Availability</h2>
+          <StatusForm />
+        </section>
+
+        {/* Current Bandwidth Widget */}
+        <section className="bg-stone-900 rounded-xl p-6 shadow-sm border border-stone-800">
+          <h2 className="text-xl font-semibold text-white mb-4">My Current Status</h2>
+          <div className="text-stone-300 space-y-2">
+            <p>Welcome back, <span className="text-blue-400">{user.name}</span>!</p>
+            <p>Your recent availability will appear here.</p>
+          </div>
         </section>
 
         {/* Debug: Show full user data (optional) */}
