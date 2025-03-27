@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import { Home, Users, PieChart, Calendar, FileText, LogIn, LogOut } from 'lucide-react';
+import { signIn, signUp } from '@/server/users';
+import SignOut from '../SignOut';
 
 export function Sidebar() {
-  const { data: session } = useSession();
 
   return (
     <nav className="fixed left-0 top-0 z-40 h-screen w-64 bg-slate-950 pt-12">
@@ -49,25 +49,9 @@ export function Sidebar() {
           <FileText className="h-4 w-4" />
           Reports
         </Link>
-
-        {/* Sign In/Sign Out Button */}
-        {session ? (
-          <button
-            onClick={() => signOut()}
-            className="flex cursor-pointer items-center gap-3 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
-          >
-            <LogOut className="h-4 w-4" />
-            Sign Out
-          </button>
-        ) : (
-          <button
-            onClick={() => signIn("github")}
-            className="flex cursor-pointer items-center gap-3 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
-          >
-            <LogIn className="h-4 w-4" />
-            Sign In
-          </button>
-        )}
+        <button onClick={signIn} className="flex items-center gap-3 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">Sign In</button>
+        <button onClick={signUp} className="flex items-center gap-3 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800">Sign Up</button>
+        <SignOut />
       </div>
     </nav>
   );
