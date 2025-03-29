@@ -1,9 +1,11 @@
-'use client';
-
-import { Settings, LogIn } from 'lucide-react';
+import { Settings, LogIn, LogOut } from 'lucide-react';
 import Link from 'next/link';
+import SignOut from '../SignOut';
+import { signIn, signUp } from '@/server/users';
+import { getServerSession } from '@/lib/getServerSession';
 
-export function Header() {
+export async function Header() {
+  const session = await getServerSession();
 
   return (
     <header className="fixed top-0 z-50 w-full bg-slate-950">
@@ -17,6 +19,27 @@ export function Header() {
             Bandwidth Board
           </span>
         </Link>
+        {/* Conditional Rendering for Sign In/Sign Up */}
+        {!session ? (
+          <>
+            <button 
+              onClick={signIn} 
+              className="flex items-center gap-3 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              <LogIn className="h-4 w-4" />
+              Sign In
+            </button>
+            <button 
+              onClick={signUp} 
+              className="flex items-center gap-3 rounded-lg px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-800"
+            >
+              <LogIn className="h-4 w-4" />
+              Sign Up
+            </button>
+          </>
+        ) : (
+         <SignOut />
+        )}
       </div>
     </header>
   );

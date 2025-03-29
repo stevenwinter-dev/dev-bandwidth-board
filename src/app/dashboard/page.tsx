@@ -1,10 +1,7 @@
-import { auth } from "@/lib/auth";
-import { headers } from "next/headers";
+import { getServerSession } from "@/lib/getServerSession";
 
 export default async function Dashboard() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+  const session = await getServerSession();
 
   return (
     <main className="ml-64 pt-12 p-6 min-h-screen">
